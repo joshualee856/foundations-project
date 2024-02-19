@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/joshualee856/foundations-project/issues"
   },
-  "homepage": "https://github.com/joshualee856/foundations-project#readme"
+  "homepage": "https://github.com/joshualee856/foundations-project#readme",
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
 }

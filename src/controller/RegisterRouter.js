@@ -11,10 +11,10 @@ const employeeService = require('../service/EmployeeService');
 
 router.post('/', async (req, res) => {
     const data = await employeeService.postRegister(req.body);
-    if (data) {
+    if (!data.error) {
         res.status(201).json({ message: 'Registration Successful '})
     } else {
-        res.status(400).json({ error: 'Username is already taken' })
+        res.status(400).json(data.error);
     }
 })
 

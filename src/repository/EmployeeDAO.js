@@ -3,6 +3,7 @@ const {
     DynamoDBDocumentClient, 
     GetCommand,
     PutCommand,
+    ScanCommand
 } = require('@aws-sdk/lib-dynamodb');
 
 const logger = require('../util/Logger');
@@ -27,6 +28,23 @@ async function postEmployee(Item) {
     }
 }
 
+async function getEmployee(username) {
+    const command = new ScanCommand({
+        TableName, 
+        FilterExpression: '#username = :username',
+        ExpressionAttributeNames: { '#username': 'username' },
+        ExpressionAttributeValues: { ':username': username }
+    })
+
+    try {
+        const data = await documentClient.send(command);
+        return data.Items[0];
+    } catch(error) {
+        logger.error(error);
+    }
+}
+
 module.exports = {
     postEmployee,
+    getEmployee,
 }

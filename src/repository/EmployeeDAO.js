@@ -28,7 +28,7 @@ async function postEmployee(Item) {
     }
 }
 
-async function getEmployee(username) {
+async function getEmployeeByUsername(username) {
     const command = new ScanCommand({
         TableName, 
         FilterExpression: '#username = :username',
@@ -46,5 +46,5 @@ async function getEmployee(username) {
 
 module.exports = {
     postEmployee,
-    getEmployee,
+    getEmployeeByUsername,
 }

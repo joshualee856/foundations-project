@@ -44,7 +44,31 @@ async function getEmployeeByUsername(username) {
     }
 }
 
+async function getEmployee(employee) {
+    const command = new ScanCommand({
+        TableName, 
+        FilterExpression: '#username = :username AND #password = :password',
+        ExpressionAttributeNames: {
+            '#username': 'username',
+            '#password': 'password'
+        },
+        ExpressionAttributeValues: {
+            ':username': employee.username,
+            ':password': employee.password
+        }
+    })
+
+    try {
+        const data = await documentClient.send(command);
+        // console.log(`Scan result: ${data.Items[0]}`);
+        return data.Items[0];
+    } catch(error) {
+        logger.error(error);
+    }
+}
+
 module.exports = {
     postEmployee,
+    getEmployee,
     getEmployeeByUsername,
 }

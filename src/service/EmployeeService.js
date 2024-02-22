@@ -47,6 +47,10 @@ async function postLogin(employee) {
     return loginData;
 }
 
+// async function deleteEmployee(employee) {
+//     employeeDAO.removeEmployee(employee);
+// }
+
 function validateData(data) {
     if (!data.username || !data.password) {
         return true;
@@ -58,4 +62,5 @@ function validateData(data) {
 module.exports = {
     postRegister,
     postLogin,
+    // deleteEmployee,
 }

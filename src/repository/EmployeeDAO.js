@@ -1,9 +1,9 @@
 const { DynamoDBClient, QueryCommand } = require('@aws-sdk/client-dynamodb');
 const {
     DynamoDBDocumentClient, 
-    GetCommand,
     PutCommand,
-    ScanCommand
+    ScanCommand,
+    DeleteCommand
 } = require('@aws-sdk/lib-dynamodb');
 
 const logger = require('../util/Logger');
@@ -67,8 +67,32 @@ async function getEmployee(employee) {
     }
 }
 
+// For Unit Testing Only
+// async function removeEmployee(employee) {
+//     const command = new DeleteCommand({
+//         TableName,
+//         FilterExpression: '#username = :username AND #password = :password',
+//         ExpressionAttributeNames: {
+//             '#username': 'username',
+//             '#password': 'password'
+//         },
+//         ExpressionAttributeValues: {
+//             ':username': employee.username,
+//             ':password': employee.password
+//         }
+//     })
+
+//     try {
+//         const data = await documentClient.send(command);
+//         return data;
+//     } catch(error) {
+//         logger.error(error);
+//     }
+// }
+
 module.exports = {
     postEmployee,
     getEmployee,
     getEmployeeByUsername,
+    // removeEmployee,
 }

@@ -17,7 +17,7 @@ describe('Employee Login Tests', () => {
     test('Logging in with a username and password that does not exist in the database should return an error message', async () => {
         let response;
         let employee = {
-            username: 'Lucy',
+            username: 'Penny',
             password: 'doggo'
         }
         let expectedResult = { error: 'Invalid Credentials' };

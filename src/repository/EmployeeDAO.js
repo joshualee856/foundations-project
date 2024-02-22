@@ -3,7 +3,7 @@ const {
     DynamoDBDocumentClient, 
     PutCommand,
     ScanCommand,
-    DeleteCommand
+    // DeleteCommand
 } = require('@aws-sdk/lib-dynamodb');
 
 const logger = require('../util/Logger');
@@ -83,7 +83,7 @@ async function getEmployee(employee) {
 
 //     try {
 //         const data = await documentClient.send(command);
-//         return data;
+//         // return data;
 //     } catch(error) {
 //         logger.error(error);
 //     }

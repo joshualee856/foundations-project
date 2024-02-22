@@ -60,7 +60,6 @@ async function getEmployee(employee) {
 
     try {
         const data = await documentClient.send(command);
-        // console.log(`Scan result: ${data.Items[0]}`);
         return data.Items[0];
     } catch(error) {
         logger.error(error);

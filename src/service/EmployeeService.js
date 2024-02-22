@@ -23,26 +23,13 @@ async function postRegister(newEmployee) {
 
 async function postLogin(employee) {
     let isDataNull = validateData(employee);
-    // console.log(`Value of isDataNull: ${isDataNull}`);
-
     let loginData = await employeeDAO.getEmployee(employee);
-    // console.log(`Value of loginData: ${loginData}`);
 
     if (isDataNull) {
         return { error: 'The username and password cannot be blank' }
     } else if (!loginData) {
         return { error: 'Invalid Credentials' }
     }
-
-    // let employee_id = loginData.employee_id;
-    // let employeeUsername = loginData.username;
-    // let employeePassword = loginData.password;
-    // let employeeRole = loginData.role;
-
-    // console.log(`employee_id: ${employee_id}`);
-    // console.log(`employeeUsername: ${employeeUsername}`);
-    // console.log(`employeePassword: ${employeePassword}`);
-    // console.log(`employeeRole: ${employeeRole}`);
         
     return loginData;
 }

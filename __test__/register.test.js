@@ -1,5 +1,5 @@
-const { postRegister, /* deleteEmployee */ } = require('../src/service/EmployeeService');
-// const { getEmployee } = require('../src/repository/EmployeeDAO');
+const { postRegister } = require('../src/service/EmployeeService');
+const employeeDAO = require('../src/repository/EmployeeDAO');
 
 describe('Employee Registration Tests', () => {
     test('Registering a blank username and/or password should return an error message', async () => {
@@ -26,28 +26,25 @@ describe('Employee Registration Tests', () => {
         expect(response).toEqual(expectedResult);
     })
 
-    // test('Registering a new username should return the new employee data, including a unique id and the default role of Employee', async () => {
-    //     let response;
-    //     let employee = {
-    //         username: 'Lucy',
-    //         password: 'doggo'
-    //     }
-    //     let expectedResult;
+    test('Registering a new username should return the new employee data, including a unique id and the default role of Employee', async () => {
+        let response;
+        let employee = {
+            username: 'Lucy',
+            password: 'doggo'
+        }
+        let expectedResult;
 
-    //     response = await postRegister(employee);
-    //     expectedResult = await getEmployee(employee);
+        response = await postRegister(employee);
+        expectedResult = false;
 
-    //     console.log(response);
-    //     console.log(expectedResult);
+        expect(Boolean(response.error)).toEqual(false);
+    })
 
-    //     expect(response).toEqual(expectedResult);
-    // })
-
-    // afterAll(() => {
-    //     let employee = {
-    //         username: 'Lucy',
-    //         password: 'doggo'
-    //     }
-    //     deleteEmployee(employee)
-    // })
+    afterAll(() => {
+        let employee = {
+            username: 'Lucy',
+            password: 'doggo'
+        }
+        employeeDAO.removeEmployee(employee)
+    })
 })

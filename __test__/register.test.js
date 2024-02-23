@@ -40,11 +40,11 @@ describe('Employee Registration Tests', () => {
         expect(Boolean(response.error)).toEqual(false);
     })
 
-    afterAll(() => {
-        let employee = {
-            username: 'Lucy',
-            password: 'doggo'
-        }
-        employeeDAO.removeEmployee(employee)
-    })
+    // afterAll(() => {
+    //     let employee = {
+    //         username: 'Lucy',
+    //         password: 'doggo'
+    //     }
+    //     employeeDAO.removeEmployee(employee)
+    // })
 })

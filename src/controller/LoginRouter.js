@@ -6,7 +6,7 @@ const router = express.Router();
 const employeeService = require('../service/EmployeeService');
 
 router.post('/', async (req, res) => {
-    const data = await employeeService.postLogin(req.body);
+    const data = await employeeService.loginEmployee(req.body);
     if (!data.error) {
         res.status(202).json(`${data.role}`)
     } else {

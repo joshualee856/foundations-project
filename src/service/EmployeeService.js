@@ -24,13 +24,14 @@ async function registerEmployee(employee) {
     }
 }
 
-async function postLogin(employee) {
+async function loginEmployee(employee) {
     let isDataNull = validateData(employee);
-    let loginData = await employeeDAO.getEmployee(employee);
-
     if (isDataNull) {
         return { error: 'The username and password cannot be blank' }
-    } else if (!loginData) {
+    } 
+    
+    let loginData = await employeeDAO.getEmployeeByUsernameAndPassword(employee.username, employee.password);
+    if (!loginData) {
         return { error: 'Invalid Credentials' }
     }
         
@@ -51,6 +52,6 @@ function validateData(data) {
 
 module.exports = {
     registerEmployee,
-    postLogin,
+    loginEmployee,
     // deleteEmployee,
 }

@@ -1,4 +1,5 @@
-const { postLogin } = require('../src/service/EmployeeService');
+const { loginEmployee } = require('../src/service/EmployeeService');
+const employeeDAO = require('../src/repository/EmployeeDAO');
 
 describe('Employee Login Tests', () => {
     test('Logging in with a blank username and/or password should return an error message', async () => {
@@ -9,7 +10,7 @@ describe('Employee Login Tests', () => {
         }
         let expectedResult = { error: 'The username and password cannot be blank' };
 
-        response = await postLogin(employee);
+        response = await loginEmployee(employee);
         
         expect(response).toEqual(expectedResult);
     })
@@ -22,21 +23,19 @@ describe('Employee Login Tests', () => {
         }
         let expectedResult = { error: 'Invalid Credentials' };
 
-        response = await postLogin(employee);
+        response = await loginEmployee(employee);
 
         expect(response).toEqual(expectedResult);
     })
 
     test('Logging in with a username and password that does exist in the database should return the employee\'s data', async () => {
-        const employeeDAO = require('../src/repository/EmployeeDAO');
-        let response;
         let employee = {
             username: 'RevaturePro',
             password: 'RevPro'
         }
-        let expectedResult = await employeeDAO.getEmployee(employee);
 
-        response = await postLogin(employee);
+        let response = await loginEmployee(employee);
+        let expectedResult = await employeeDAO.getEmployee('0baf0656-8539-49c0-bf48-0c20f5197cfe');
 
         expect(response).toEqual(expectedResult);
     })

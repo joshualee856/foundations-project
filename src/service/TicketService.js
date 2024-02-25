@@ -12,7 +12,7 @@ async function createTicket(ticket) {
             id: uuid.v4(),
             author: ticket.author,
             description: ticket.description,
-            type: ticket.type,
+            type: ticket.type ? ticket.type : 'Other',
             amount: ticket.amount
         }
         

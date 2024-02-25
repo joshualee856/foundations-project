@@ -1,4 +1,4 @@
-const { postRegister } = require('../src/service/EmployeeService');
+const { postRegister, registerEmployee } = require('../src/service/EmployeeService');
 const employeeDAO = require('../src/repository/EmployeeDAO');
 
 describe('Employee Registration Tests', () => {
@@ -8,7 +8,7 @@ describe('Employee Registration Tests', () => {
         let password = '';
         let expectedResult = { error: 'The username and password cannot be blank' };
 
-        response = await postRegister({ username, password })
+        response = await registerEmployee({ username, password })
         
         expect(response).toEqual(expectedResult);
     })
@@ -21,7 +21,7 @@ describe('Employee Registration Tests', () => {
         }
         let expectedResult = { error: 'The username is already taken' };
 
-        response = await postRegister(employee);
+        response = await registerEmployee(employee);
 
         expect(response).toEqual(expectedResult);
     })
@@ -34,10 +34,10 @@ describe('Employee Registration Tests', () => {
         }
         let expectedResult;
 
-        response = await postRegister(employee);
-        expectedResult = false;
+        response = await registerEmployee(employee);
+        expectedResult = await employeeDAO.getEmployee(response.employee_id);
 
-        expect(Boolean(response.error)).toEqual(false);
+        expect(response).toEqual(expectedResult);
     })
 
     // afterAll(() => {

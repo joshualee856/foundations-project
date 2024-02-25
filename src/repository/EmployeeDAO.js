@@ -29,6 +29,20 @@ async function insertEmployee(employee) {
     }
 }
 
+async function getEmployee(id) {
+    const command = new GetCommand({
+        TableName, 
+        Key: { employee_id: id }
+    })
+
+    try {
+        const data = await documentClient.send(command);
+        return data.Item;
+    } catch(error) {
+        logger.error(error);
+    }
+}
+
 async function getEmployeeByUsername(username) {
     const command = new ScanCommand({
         TableName, 
@@ -45,15 +59,23 @@ async function getEmployeeByUsername(username) {
     }
 }
 
-async function getEmployee(id) {
-    const command = new GetCommand({
+async function getEmployeeByUsernameAndPassword(username, password) {
+    const command = new ScanCommand({
         TableName, 
-        Key: { employee_id: id }
+        FilterExpression: '#username = :username AND #password = :password',
+        ExpressionAttributeNames: { 
+            '#username': 'username',
+            '#password': 'password'
+        },
+        ExpressionAttributeValues: { 
+            ':username': username,
+            ':password': password
+        }
     })
 
     try {
         const data = await documentClient.send(command);
-        return data.Item;
+        return data.Items[0];
     } catch(error) {
         logger.error(error);
     }
@@ -86,5 +108,6 @@ module.exports = {
     insertEmployee,
     getEmployee,
     getEmployeeByUsername,
+    getEmployeeByUsernameAndPassword,
     // removeEmployee,
 }

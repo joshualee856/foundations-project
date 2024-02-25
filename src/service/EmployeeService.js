@@ -1,23 +1,26 @@
 const employeeDAO = require('../repository/EmployeeDAO');
 const uuid = require('uuid');
 
-async function postRegister(newEmployee) {
-    let isDataNull = validateData(newEmployee);
-    let isUsernameTaken = await employeeDAO.getEmployeeByUsername(newEmployee.username);
+async function registerEmployee(employee) {
+    let isDataNull = validateData(employee);
+    let isUsernameTaken = await employeeDAO.getEmployeeByUsername(employee.username);
 
     if (isDataNull) {
         return { error: 'The username and password cannot be blank' }
     } else if (isUsernameTaken) {
         return { error: 'The username is already taken' }
     } else {
-        let employeeData = await employeeDAO.postEmployee({
+        let newEmployee = {
             employee_id: uuid.v4(),
-            username: newEmployee.username,
-            password: newEmployee.password,
+            username: employee.username,
+            password: employee.password,
             role: 'Employee'
-        })
+        }
 
-        return employeeData;
+        await employeeDAO.insertEmployee(newEmployee);
+
+        // Retrieve and return newly inserted employee
+        return await employeeDAO.getEmployee(newEmployee.employee_id);
     }
 }
 
@@ -47,7 +50,7 @@ function validateData(data) {
 }
 
 module.exports = {
-    postRegister,
+    registerEmployee,
     postLogin,
     // deleteEmployee,
 }

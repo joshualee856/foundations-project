@@ -14,10 +14,10 @@ const documentClient = DynamoDBDocumentClient.from(client);
 
 const TableName = 'Employees';
 
-async function postEmployee(Item) {
+async function insertEmployee(employee) {
     const command = new PutCommand({
         TableName,
-        Item
+        Item: employee
     });
 
     try {
@@ -90,7 +90,7 @@ async function getEmployee(employee) {
 // }
 
 module.exports = {
-    postEmployee,
+    insertEmployee,
     getEmployee,
     getEmployeeByUsername,
     // removeEmployee,

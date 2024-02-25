@@ -9,7 +9,6 @@ const logger = createLogger({
     })
   ),
   transports: [
-    new transports.Console(), // log to the console
     new transports.File({ filename: "server.log" }), // log to a file
   ],
 });

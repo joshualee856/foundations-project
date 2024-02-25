@@ -6,11 +6,11 @@ const router = express.Router();
 const employeeService = require('../service/EmployeeService');
 
 router.post('/', async (req, res) => {
-    const data = await employeeService.postRegister(req.body);
-    if (!data.error) {
-        res.status(201).json({ message: 'Registration Successful '})
+    const employee = await employeeService.registerEmployee(req.body);
+    if (!employee.error) {
+        res.status(201).json(employee)
     } else {
-        res.status(400).json(data.error);
+        res.status(400).json(employee.error);
     }
 })
 

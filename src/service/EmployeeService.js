@@ -30,7 +30,7 @@ async function loginEmployee(employee) {
         return { error: 'The username and password cannot be blank' }
     } 
     
-    let loginData = await employeeDAO.getEmployeeByUsernameAndPassword(employee.username, employee.password);
+    let loginData = await employeeDAO.getEmployeeByUsername(employee.username);
     if (!loginData) {
         return { error: 'Invalid Credentials' }
     }

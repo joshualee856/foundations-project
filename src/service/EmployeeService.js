@@ -14,7 +14,7 @@ async function registerEmployee(employee) {
             employee_id: uuid.v4(),
             username: employee.username,
             password: employee.password,
-            role: 'Employee'
+            role: employee.role ? employee.role : 'Employee'
         }
 
         await employeeDAO.insertEmployee(newEmployee);

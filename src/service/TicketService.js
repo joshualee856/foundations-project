@@ -1,19 +1,20 @@
 const ticketDAO = require('../repository/TicketDAO');
 const uuid = require('uuid');
 
-async function createTicket(ticket) {
+async function createTicket(ticketData) {
 
-    if (!ticket.description) {
+    if (!ticketData.description) {
         return { error: 'Requests cannot be submitted without a description' }
-    } else if (!ticket.amount) {
+    } else if (!ticketData.amount) {
         return { error: 'Requests cannot be submitted without an amount' }
     } else {
         let newTicket = {
             id: uuid.v4(),
-            author: ticket.author,
-            description: ticket.description,
-            type: ticket.type ? ticket.type : 'Other',
-            amount: ticket.amount
+            author: ticketData.author,
+            description: ticketData.description,
+            type: ticketData.type ? ticketData.type : 'Other',
+            amount: ticketData.amount,
+            status: 'Pending'
         }
         
         await ticketDAO.insertTicket(newTicket);

@@ -26,10 +26,24 @@ async function createTicket(ticketData) {
 
 async function getTicketsByStatus(status) {
     let tickets = await ticketDAO.getTicketsByStatus(status);
+    console.log(tickets);
     return tickets;
+}
+
+async function updateTicketStatus(ticket_id, status) {
+    let ticket = await ticketDAO.getTicket(ticket_id);
+    console.log(ticket.status);
+
+    if (ticket.status !== 'Pending') {
+        return { error: 'Ticket has already been processed' };
+    } else {
+        let updatedTicket = await ticketDAO.updateTicketStatus(ticket_id, status);
+        return updatedTicket;
+    }
 }
 
 module.exports = {
     createTicket,
     getTicketsByStatus,
+    updateTicketStatus,
 }

@@ -44,7 +44,24 @@ async function getTicket(ticket_id) {
     }
 }
 
+async function getTicketsByStatus(status) {
+    const command = new ScanCommand({
+        TableName,
+        FilterExpression: '#status = :status',
+        ExpressionAttributeNames: { '#status': 'status' },
+        ExpressionAttributeValues: { ':status': status }
+    })
+
+    try {
+        const tickets = await documentClient.send(command);
+        return tickets.Items;
+    } catch(error) {
+        logger.error(error);
+    }
+}
+
 module.exports = {
     insertTicket,
     getTicket,
+    getTicketsByStatus,
 }

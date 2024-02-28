@@ -6,7 +6,7 @@ describe('Ticket Submission Tests', () => {
         let newTicket = {
             author: 1,
             description: '',
-            type: 'Travel',
+            type: 'Work',
             amount: 2000
         }
 
@@ -19,8 +19,8 @@ describe('Ticket Submission Tests', () => {
     test('Registering a ticket with no amount should return an error message', async () => {
         let newTicket = {
             author: 1,
-            description: 'Reston Culture Workshop Travel Expenses',
-            type: 'Travel',
+            description: 'Unit Testing Expenses',
+            type: 'Work',
             amount: ''
         }
 

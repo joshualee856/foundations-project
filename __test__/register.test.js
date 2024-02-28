@@ -16,8 +16,8 @@ describe('Employee Registration Tests', () => {
     test('Registering a username that is already in the database should return an error message', async () => {
         let response;
         let employee = {
-            username: 'RevaturePro',
-            password: 'RevPro'
+            username: 'Joshua Lee',
+            password: 'ManagerJoshPassword'
         }
         let expectedResult = { error: 'The username is already taken' };
 

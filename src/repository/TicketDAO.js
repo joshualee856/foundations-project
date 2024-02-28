@@ -3,6 +3,7 @@ const {
     DynamoDBDocumentClient,
     GetCommand,
     PutCommand,
+    UpdateCommand,
     ScanCommand,
 } = require('@aws-sdk/lib-dynamodb');
 
@@ -54,7 +55,26 @@ async function getTicketsByStatus(status) {
 
     try {
         const tickets = await documentClient.send(command);
+        console.log(tickets.Items)
         return tickets.Items;
+    } catch(error) {
+        logger.error(error);
+    }
+}
+
+async function updateTicketStatus(ticket_id, status) {
+    const command = new UpdateCommand({
+        TableName,
+        Key: { id: ticket_id },
+        UpdateExpression: 'SET #status = :status',
+        ExpressionAttributeNames: { '#status': 'status' },
+        ExpressionAttributeValues: { ':status': status },
+        ReturnValues: 'ALL_NEW'
+    })
+
+    try {
+        const ticket = await documentClient.send(command);
+        return ticket.Attributes;
     } catch(error) {
         logger.error(error);
     }
@@ -64,4 +84,5 @@ module.exports = {
     insertTicket,
     getTicket,
     getTicketsByStatus,
+    updateTicketStatus,
 }

@@ -26,7 +26,20 @@ router.post('/', authenticateToken, async (req, res) => {
 })
 
 router.get('/', authenticateManagerToken, async (req, res) => {
-    res.json({ message: 'This is the /tickets?status=Pending endpoint for managers only' })
+    const statusQuery = req.query.status;
+
+    const tickets = await ticketService.getTicketsByStatus(statusQuery);
+    res.status(200).json(tickets);
+
+    // res.json({ 
+    //     message: 'This is the /tickets?status=Pending endpoint for managers only',
+    //     status: statusQuery
+    // })
+})
+
+router.put('/:ticket_id', authenticateManagerToken, async (req, res) => {
+    let ticket_id = req.params.ticket_id;
+    res.status(200).json({ id: ticket_id });
 })
 
 function authenticateToken(req, res, next) {
@@ -39,7 +52,6 @@ function authenticateToken(req, res, next) {
     }
 
     jwt.verify(token, secretKey, (err, employee) => {
-        console.log(employee.employee_id)
         if (err || (employee.role !== 'Employee' && employee.role !== 'Manager')) {
             res.status(403).json({ message: "Forbidden Access" });
             return;

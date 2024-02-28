@@ -24,12 +24,12 @@ async function createTicket(ticketData) {
     }
 }
 
-async function getPendingTickets(status) {
-    let pendingTickets = await ticketDAO.getTicketsByStatus(status);
-    return pendingTickets;
+async function getTicketsByStatus(status) {
+    let tickets = await ticketDAO.getTicketsByStatus(status);
+    return tickets;
 }
 
 module.exports = {
     createTicket,
-    getPendingTickets,
+    getTicketsByStatus,
 }

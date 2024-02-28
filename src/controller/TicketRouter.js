@@ -25,6 +25,10 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 })
 
+router.get('/', authenticateManagerToken, async (req, res) => {
+    res.json({ message: 'This is the /tickets?status=Pending endpoint for managers only' })
+})
+
 function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -41,6 +45,25 @@ function authenticateToken(req, res, next) {
             return;
         }
         req.employee = employee;
+        next();
+    })
+}
+
+function authenticateManagerToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        res.status(401).json({ message: 'Unauthorized Access' });
+        return
+    }
+
+    jwt.verify(token, secretKey, (err, employee) => {
+        if (err || employee.role != 'Manager') {
+            res.status(403).json({ message: 'Forbidden Access' });
+            return;
+        }
+        req.manager = employee;
         next();
     })
 }

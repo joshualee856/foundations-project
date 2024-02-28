@@ -39,7 +39,15 @@ router.get('/', authenticateManagerToken, async (req, res) => {
 
 router.put('/:ticket_id', authenticateManagerToken, async (req, res) => {
     let ticket_id = req.params.ticket_id;
-    res.status(200).json({ id: ticket_id });
+    let status = req.body.status;
+
+    let updatedTicket = await ticketService.updateTicketStatus(ticket_id, status);
+    if (!updatedTicket.error) {
+        res.status(200).json(updatedTicket);
+    } else {
+        res.status(403).json({ error: updatedTicket.error })
+    }
+    
 })
 
 function authenticateToken(req, res, next) {

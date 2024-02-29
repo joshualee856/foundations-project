@@ -37,6 +37,19 @@ router.get('/', authenticateManagerToken, async (req, res) => {
     // })
 })
 
+router.get('/:author', authenticateToken, async (req, res) => {
+    const author = req.params.author;
+    const employee_id = req.employee.employee_id;
+    console.log(`author: ${author}, employee_id: ${employee_id}`)
+
+    if (author === employee_id) {
+        const tickets = await ticketService.getTicketsByAuthor(author);
+        res.status(200).json(tickets);
+    } else {
+        res.status(403).json({ error: 'Current user is not the author of the ticket' })
+    }
+})
+
 router.put('/:ticket_id', authenticateManagerToken, async (req, res) => {
     let ticket_id = req.params.ticket_id;
     let status = req.body.status;

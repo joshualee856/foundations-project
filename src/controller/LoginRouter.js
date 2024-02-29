@@ -9,11 +9,16 @@ const employeeService = require('../service/EmployeeService');
 
 const secretKey = 'mdJk9JTAjWzelmwQEmF0';
 
+const logger = require('../util/Logger');
+
 router.post('/', async (req, res) => {
+    logger.info(`Incoming ${req.method} : /login${req.url}`);
+
     const { username, password } = req.body;
 
     const employeeData = await employeeService.loginEmployee({ username, password });
     if (!employeeData || !(await bcrypt.compare(password, employeeData.password))) {
+        logger.info('Invalid Credentials');
         res.status(401).json({ error: 'Invalid Credentials' });
     } else {
         const token = jwt.sign(
@@ -27,10 +32,9 @@ router.post('/', async (req, res) => {
                 expiresIn: '30m'
             }
         );
-
-        res.status(202).json({ 
-            token
-        })
+        
+        logger.info(`Successful login of Employee #${employeeData.employee_id}`);
+        res.status(202).json({ token })
     }
 
     // if (!data.error) {

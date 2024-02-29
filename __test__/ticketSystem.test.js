@@ -1,5 +1,49 @@
-const { getTicketsByStatus, updateTicketStatus } = require('../src/service/TicketService');
+const { createTicket, getTicketsByAuthor, getTicketsByStatus, updateTicketStatus } = require('../src/service/TicketService');
 const ticketDAO = require('../src/repository/TicketDAO');
+
+describe('Ticket Submission Tests', () => {
+    test('Registering a ticket with no description should return an error message', async () => {
+        let newTicket = {
+            author: 1,
+            description: '',
+            type: 'Work',
+            amount: 2000
+        }
+
+        let response = await createTicket(newTicket);
+        let expectedResult = { error: 'Requests cannot be submitted without a description' };
+
+        expect(response).toEqual(expectedResult);
+    })
+
+    test('Registering a ticket with no amount should return an error message', async () => {
+        let newTicket = {
+            author: 1,
+            description: 'Unit Testing Expenses',
+            type: 'Work',
+            amount: ''
+        }
+
+        let response = await createTicket(newTicket);
+        let expectedResult = { error: 'Requests cannot be submitted without an amount' };
+
+        expect(response).toEqual(expectedResult);
+    })
+
+    test('Registering a ticket with a description and an amount should return the newly created ticket', async () => {
+        let newTicket = {
+            author: 1,
+            description: 'Unit Testing Expenses',
+            type: 'Work',
+            amount: 2000
+        }
+
+        let response = await createTicket(newTicket);
+        let expectedResult = await ticketDAO.getTicket(response.id);
+
+        expect(response).toEqual(expectedResult);
+    })
+})
 
 describe('Ticketing System Tests', () => {
     test('Getting tickets by the \'Pending\' status should return an array of pending tickets', async () => {
@@ -37,6 +81,15 @@ describe('Ticketing System Tests', () => {
 
         let response = await updateTicketStatus(ticket_id, status);
         let expectedResult = await ticketDAO.getTicket(ticket_id);
+
+        expect(response).toEqual(expectedResult);
+    })
+
+    test('Employees should be able to view their submitted tickets by filtering them with their employee ID', async () => {
+        let employee_id = 'c9879dab-86b8-4747-b31f-77ab56516504';
+
+        let response = await getTicketsByAuthor(employee_id);
+        let expectedResult = await ticketDAO.getTicketsByAuthor(employee_id);
 
         expect(response).toEqual(expectedResult);
     })

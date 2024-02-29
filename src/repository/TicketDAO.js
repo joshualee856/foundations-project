@@ -45,6 +45,22 @@ async function getTicket(ticket_id) {
     }
 }
 
+async function getTicketsByAuthor(employee_id) {
+    const command = new ScanCommand({
+        TableName,
+        FilterExpression: '#author = :author',
+        ExpressionAttributeNames: { '#author': 'author' },
+        ExpressionAttributeValues: { ':author': employee_id }
+    })
+
+    try {
+        const tickets = await documentClient.send(command);
+        return tickets.Items;
+    } catch(error) {
+        logger.error(error);
+    }
+}
+
 async function getTicketsByStatus(status) {
     const command = new ScanCommand({
         TableName,
@@ -55,7 +71,6 @@ async function getTicketsByStatus(status) {
 
     try {
         const tickets = await documentClient.send(command);
-        console.log(tickets.Items)
         return tickets.Items;
     } catch(error) {
         logger.error(error);
@@ -83,6 +98,7 @@ async function updateTicketStatus(ticket_id, status) {
 module.exports = {
     insertTicket,
     getTicket,
+    getTicketsByAuthor,
     getTicketsByStatus,
     updateTicketStatus,
 }

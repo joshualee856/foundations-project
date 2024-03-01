@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
         res.status(201).json(employeeData)
     } else {
         logger.error(employeeData.error);
-        res.status(400).json(employeeData.error);
+        res.status(400).json(employeeData);
     }
 })
 

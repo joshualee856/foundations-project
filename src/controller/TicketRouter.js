@@ -25,7 +25,7 @@ router.post('/', authenticateToken, async (req, res) => {
         res.status(202).json(ticket);
     } else {
         logger.error(ticket.error);
-        res.status(400).json(ticket.error);
+        res.status(400).json(ticket);
     }
 })
 

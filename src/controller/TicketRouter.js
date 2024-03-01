@@ -31,16 +31,11 @@ router.post('/', authenticateToken, async (req, res) => {
 
 router.get('/', authenticateManagerToken, async (req, res) => {
     logger.info(`Incoming ${req.method} : /tickets${req.url}`);
-
     const statusQuery = req.query.status;
     const tickets = await ticketService.getTicketsByStatus(statusQuery);
+
     logger.info('Fetched Pending Tickets');
     res.status(200).json(tickets);
-
-    // res.json({ 
-    //     message: 'This is the /tickets?status=Pending endpoint for managers only',
-    //     status: statusQuery
-    // })
 })
 
 router.get('/:author', authenticateToken, async (req, res) => {
@@ -48,7 +43,6 @@ router.get('/:author', authenticateToken, async (req, res) => {
 
     const author = req.params.author;
     const employee_id = req.employee.employee_id;
-    console.log(`author: ${author}, employee_id: ${employee_id}`)
 
     if (author === employee_id) {
         const tickets = await ticketService.getTicketsByAuthor(author);

@@ -23,7 +23,6 @@ async function insertTicket(ticket) {
 
     try {
         const data = await documentClient.send(command);
-        logger.info(`Inserted Ticket (id: ${ticket.id}) into database`)
         return data;
     } catch(error) {
         logger.error(error);
@@ -38,7 +37,6 @@ async function getTicket(ticket_id) {
 
     try {
         const data = await documentClient.send(command);
-        // logger.info(`Retrieved Ticket(${ticket.id}) from database`)
         return data.Item;
     } catch(error) {
         logger.error(error);

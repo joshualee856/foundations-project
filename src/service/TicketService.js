@@ -1,6 +1,7 @@
 const ticketDAO = require('../repository/TicketDAO');
 const uuid = require('uuid');
 
+// Ticket Validation + Creation
 async function createTicket(ticketData) {
 
     if (!ticketData.description) {
@@ -24,16 +25,19 @@ async function createTicket(ticketData) {
     }
 }
 
+// Ticket Retrieval by Author
 async function getTicketsByAuthor(employee_id) {
     let tickets = await ticketDAO.getTicketsByAuthor(employee_id);
     return tickets;
 }
 
+// Ticket Retrieval by Status
 async function getTicketsByStatus(status) {
     let tickets = await ticketDAO.getTicketsByStatus(status);
     return tickets;
 }
 
+// Update Ticket Validation + Submission
 async function updateTicketStatus(ticket_id, status) {
     let ticket = await ticketDAO.getTicket(ticket_id);
 

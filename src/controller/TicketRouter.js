@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'mdJk9JTAjWzelmwQEmF0';
 const logger = require('../util/Logger');
 
+// POST Method - Create New Ticket and Insert into Database
 router.post('/', authenticateToken, async (req, res) => {
     logger.info(`Incoming ${req.method} : /tickets${req.url}`);
 
@@ -21,7 +22,7 @@ router.post('/', authenticateToken, async (req, res) => {
     const ticket = await ticketService.createTicket(ticketData);
 
     if (!ticket.error) {
-        logger.info(`Successfull created Ticket #${ticket.id}`);
+        logger.info(`Successful created Ticket #${ticket.id}`);
         res.status(202).json(ticket);
     } else {
         logger.error(ticket.error);
@@ -29,6 +30,7 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 })
 
+// GET Method - Retrieve Tickets by Status
 router.get('/', authenticateManagerToken, async (req, res) => {
     logger.info(`Incoming ${req.method} : /tickets${req.url}`);
     const statusQuery = req.query.status;
@@ -38,6 +40,7 @@ router.get('/', authenticateManagerToken, async (req, res) => {
     res.status(200).json(tickets);
 })
 
+// GET Method - Retrieve Tickets by Author
 router.get('/:author', authenticateToken, async (req, res) => {
     logger.info(`Incoming ${req.method} : /tickets${req.url}`);
 
@@ -54,6 +57,7 @@ router.get('/:author', authenticateToken, async (req, res) => {
     }
 })
 
+// PUT Method - Update Ticket Status
 router.put('/:ticket_id', authenticateManagerToken, async (req, res) => {
     logger.info(`Incoming ${req.method} : /tickets${req.url}`);
 
@@ -71,6 +75,7 @@ router.put('/:ticket_id', authenticateManagerToken, async (req, res) => {
     
 })
 
+// Authenticate an Employee Token (I consider Managers to be Employees too)
 function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -92,6 +97,7 @@ function authenticateToken(req, res, next) {
     })
 }
 
+// Authenticate a Manager Token
 function authenticateManagerToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

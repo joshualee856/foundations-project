@@ -8,11 +8,13 @@ const employeeService = require('../service/EmployeeService');
 
 const logger = require('../util/Logger');
 
+// POST Method - Register new employee
 router.post('/', async (req, res) => {
     logger.info(`Incoming ${req.method} : /register${req.url}`);
 
     let { username, password, role } = req.body;
 
+    // Encrypt the password using bcrypt
     const saltRounds = 10;
     password = await bcrypt.hash(password, saltRounds);
 

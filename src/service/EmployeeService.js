@@ -1,6 +1,7 @@
 const employeeDAO = require('../repository/EmployeeDAO');
 const uuid = require('uuid');
 
+// Register Employee Validation + Creation
 async function registerEmployee(employee) {
     let isDataNull = validateData(employee);
     let isUsernameTaken = await employeeDAO.getEmployeeByUsername(employee.username);
@@ -24,6 +25,7 @@ async function registerEmployee(employee) {
     }
 }
 
+// Login Employee Validation
 async function loginEmployee(employee) {
     let isDataNull = validateData(employee);
     if (isDataNull) {
@@ -38,10 +40,13 @@ async function loginEmployee(employee) {
     return loginData;
 }
 
+// Delete Employee Method (Meant for Unit Testing only, never finished)
+
 // async function deleteEmployee(employee) {
 //     employeeDAO.removeEmployee(employee);
 // }
 
+// Data Validation (Checks for null fields)
 function validateData(data) {
     if (!data.username || !data.password) {
         return true;

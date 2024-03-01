@@ -11,6 +11,7 @@ const secretKey = 'mdJk9JTAjWzelmwQEmF0';
 
 const logger = require('../util/Logger');
 
+// POST Method - Log in an employee
 router.post('/', async (req, res) => {
     logger.info(`Incoming ${req.method} : /login${req.url}`);
 

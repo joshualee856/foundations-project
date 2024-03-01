@@ -15,6 +15,7 @@ const documentClient = DynamoDBDocumentClient.from(client);
 
 const TableName = 'Tickets';
 
+// Insert Ticket DAO Method
 async function insertTicket(ticket) {
     const command = new PutCommand({
         TableName,
@@ -29,6 +30,7 @@ async function insertTicket(ticket) {
     }
 }
 
+// Get Ticket by ID DAO method
 async function getTicket(ticket_id) {
     const command = new GetCommand({
         TableName,
@@ -43,6 +45,7 @@ async function getTicket(ticket_id) {
     }
 }
 
+// Get Tickets by Author DAO Method
 async function getTicketsByAuthor(employee_id) {
     const command = new ScanCommand({
         TableName,
@@ -59,6 +62,7 @@ async function getTicketsByAuthor(employee_id) {
     }
 }
 
+// Get Tickets by Status DAO Method
 async function getTicketsByStatus(status) {
     const command = new ScanCommand({
         TableName,
@@ -75,6 +79,7 @@ async function getTicketsByStatus(status) {
     }
 }
 
+// Update Ticket Status DAO Method
 async function updateTicketStatus(ticket_id, status) {
     const command = new UpdateCommand({
         TableName,

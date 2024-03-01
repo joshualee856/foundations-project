@@ -15,6 +15,7 @@ const documentClient = DynamoDBDocumentClient.from(client);
 
 const TableName = 'Employees';
 
+// Insert Employee DAO Method
 async function insertEmployee(employee) {
     const command = new PutCommand({
         TableName,
@@ -29,6 +30,7 @@ async function insertEmployee(employee) {
     }
 }
 
+// Get Employee by ID DAO Method
 async function getEmployee(id) {
     const command = new GetCommand({
         TableName, 
@@ -43,6 +45,7 @@ async function getEmployee(id) {
     }
 }
 
+// Get Employee by Username DAO Method
 async function getEmployeeByUsername(username) {
     const command = new ScanCommand({
         TableName, 
@@ -59,6 +62,7 @@ async function getEmployeeByUsername(username) {
     }
 }
 
+// Get Employee by Username and Password DAO Method
 async function getEmployeeByUsernameAndPassword(username, password) {
     const command = new ScanCommand({
         TableName, 
@@ -81,7 +85,8 @@ async function getEmployeeByUsernameAndPassword(username, password) {
     }
 }
 
-// For Unit Testing Only
+// Delete Employee DAO Method (For Unit Testing Only, never finished)
+
 // async function removeEmployee(employee) {
 //     const command = new DeleteCommand({
 //         TableName,
